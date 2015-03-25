@@ -1,0 +1,22 @@
+body {
+	margin: 0 auto;
+}
+
+.move {
+	height: 180px;
+	display: inline;
+	padding: 20px;
+}
+
+.move img {
+	height: 150px;
+	border-radius: 15px;
+}
+
+.player {
+	height: 150px;
+}
+
+.computer {
+	height: 150px;
+}
