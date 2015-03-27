@@ -4,14 +4,14 @@ body {
 }
 
 .move {
-	height: 180px;
+	height: 250px;
 	display: inline;
 	padding: 20px;
 }
 
 .move img {
-	height: 150px;
-	border-radius: 15px;
+	height: 250px;
+	border-radius: 125px;
 }
 
 #playersMove {
@@ -25,14 +25,19 @@ body {
 }
 
 #winner {
-	padding: 10px;
 	font-size: 32px;
 	position: relative;
-	top: 50%;
+	top: 55%;
+ 	transform: translateY(-50%);
 }
 
 .picture {
 	text-align: center;
 	display: inline-block;
-	max-width: 200px;
+	width: 280px;
+}
+
+.picture img {
+	height: 250px;
+	border-radius: 125px;
 }
