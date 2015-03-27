@@ -9,19 +9,41 @@ $(function() {
 			return "scissors";
 		}
 	};
+
+	function Player(which) {
+		this.player = which;
+	}
+
+	Player.prototype = {
+		chooseMove: function(xoro) {
+			if (this.player === "player") {
+				var move = function() {
+					$('.move').click(function(event) {
+					if(event.target === $('.move')[0]) {
+						$('#playersMove').html("<img src='img/Rock.png' id='rock'>");
+						computerMove();
+						player = "rock";
+						gamePlay();
+						change();
+					}
+					});
+				};
+			}
+		}
+	};
 	var computer;
-	var computerMove = function(move) {
+	var computerMove = function() {
 		var random = randomPlay();
 			if (random === "rock") {
-				$('#computerMove').html("<img src='img/Rock.png' id='rock'>");
+				$('#computerMove').html("<img src='img/computerRock.png' id='rock'>");
 				computer = "rock";
 				return "rock";
 			} else if (random === "paper") {
-				$('#computerMove').html("<img src='img/Paper.png' id='paper'>");
+				$('#computerMove').html("<img src='img/computerPaper.png' id='paper'>");
 				computer = "paper";
 				return "paper";
 			} else {
-				$('#computerMove').html("<img src='img/Scissors.png' id='scissors'>");
+				$('#computerMove').html("<img src='img/computerScissors.png' id='scissors'>");
 				computer = "scissors";
 				return "scissors";
 			}
@@ -34,21 +56,21 @@ $(function() {
 		var paper = $('#paper');
 		var scissors = $('#scissors');
 		if(rock.click(function(event) {
-			$('#playersMove').html("<img src='img/Rock.png' id='rock'>");
+			$('#playersMove').html("<img src='img/playerRock.png' id='rock'>");
 			computerMove();
 			player = "rock";
 			gamePlay();
 			change();
 		}));
 		if(paper.click(function(event) {
-			$('#playersMove').html("<img src ='img/Paper.png' id='paper'>");
+			$('#playersMove').html("<img src ='img/playerPaper.png' id='paper'>");
 			computerMove();
 			player = "paper";
 			gamePlay();
 			change();
 		}));
 		if (scissors.click(function(event) {
-			$('#playersMove').html("<img src = 'img/Scissors.png' id='scissors'>");
+			$('#playersMove').html("<img src = 'img/playerScissors.png' id='scissors'>");
 			computerMove();
 			player = "scissors";
 			gamePlay();
@@ -72,94 +94,20 @@ $(function() {
 		}
 
 	};
+
+	function rules(playerMove,computerMove) {
+		if(playerMove === computerMove) {
+			winner = "tie";
+		} else if(playerMove == "rock" && computerMove == "paper" ||
+				playerMove == "paper" && computerMove == "scissors" ||
+				playerMove == "scissors" && computerMove == "rock") {
+			winner = "computer";
+		} else if(playerMove == "rock" && computerMove == "scissors" ||
+				playerMove == "paper" && computerMove == "rock" ||
+				playerMove == "scissors" && computerMove == "paper")  {
+			winner = "player";
+		}
+		return winner;
+	}
 	playerMove();
-	// var playerMove = function(move) {
-	// 	var buttons = $('.move');
-	// 	buttons.click(function(event) {
-	// 		if ($(this).attr("id") === ('rock')) {
-				// $('#playersMove').html("<img src='img/Rock.png' id='rock'>");
-	// 			$('#computerMove').show();
-	// 			move = "rock";
-	// 			return move;
-	// 		} else if ($(this).attr("id") === ('paper')) {
-	// 			$('#playersMove').html("<img src='img/Paper.png' id='paper'>");
-	// 			$('#computerMove').show();
-	// 			move = "paper";
-	// 			return move;
-	// 		} else if ($(this).attr("id") === ('scissors')) {
-	// 			$('#playersMove').html("<img src='img/Scissors.png' id='scissors'>");
-	// 			$('#computerMove').show();
-	// 			move = "scissors";
-	// 			return move;
-	// 		}
-	// 	});
-	// };
-function rules(playerMove,computerMove) {
-    // Write code that will set winner to either 'player', 'computer', or 'tie' based on the values of playerMove and computerMove.
-    // Assume that the only values playerMove and computerMove can have are 'rock', 'paper', and 'scissors'.
-    // The rules of the game are that 'rock' beats 'scissors', 'scissors' beats 'paper', and 'paper' beats 'rock'.
-    /* YOUR CODE HERE */
-    if(playerMove == "rock" && computerMove == "rock") {
-        winner = "tie";
-    }
-    else if(playerMove == "rock" && computerMove == "paper") {
-        winner = "computer";
-    }
-    else if(playerMove == "rock" && computerMove == "scissors") {
-        winner = "player";
-    }
-    else if(playerMove == "paper" && computerMove == "rock") {
-        winner = "player";
-    }
-    else if(playerMove == "paper" && computerMove == "paper") {
-        winner = "tie";
-    }
-    else if(playerMove == "paper" && computerMove == "scissors") {
-        winner = "computer";
-    }
-    else if(playerMove == "scissors" && computerMove == "rock") {
-        winner = "computer";
-    }
-    else if(playerMove == "scissors" && computerMove == "paper") {
-        winner = "player";
-    }
-    else if(playerMove == "scissors" && computerMove == "scissors") {
-        winner = "tie";
-    }
-    return winner;
-}
-
-	
-	// var getWinner = function() {
-	// 	if (computerMove() === playerMove()) {
-	// 		console.log("it's a tie");
-	// 	} else {
-	// 		console.log("that didn't work");
-	// 	}
-	// };
-			// var playerWins = 0;
-			// var computerWins = 0;
-			// while (playerWins < x+1 && computerWins < x+1) {
-			// 	// var playerMoveThisTurn = playerMove();
-			// 	// var computerMoveThisTurn = computerMove();
-			// 	var winnerThisTurn = getWinner(playerMove(), computerMove());
-			// 	if (winnerThisTurn == 'player') {
-			// 		playerWins +=1;
-			// 		if (playerWins == x) {
-			// 			break;
-			// 		}
-			// 	}
-			// 	else if (winnerThisTurn == 'computer') {
-			// 		computerWins +=1;
-			// 		if (computerWins == x) {
-			// 			break;
-			// 		}
-
-			// 	}
-			// 	else if (winnerThisTurn == 'tie' ){
-			// 		return tie;
-			// 	}
-			// }
-			// console.log("The final score is: ");
-			// return [playerWins, computerWins];
 });
