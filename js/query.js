@@ -1,113 +1,85 @@
 $(function() {
-	var randomPlay = function() {
-		var randomNumber = Math.random();
-		if (randomNumber < 0.33) {
-			return "rock";
-		} else if (randomNumber < 0.66) {
-			return "paper";
-		} else {
-			return "scissors";
-		}
-	};
-
-	function Player(which) {
-		this.player = which;
+	function Player(player) {
+		this.player = player;
+		this.move = "";
 	}
 
-	Player.prototype = {
-		chooseMove: function(xoro) {
-			if (this.player === "player") {
-				var move = function() {
-					$('.move').click(function(event) {
-					if(event.target === $('.move')[0]) {
-						$('#playersMove').html("<img src='img/Rock.png' id='rock'>");
-						computerMove();
-						player = "rock";
-						gamePlay();
-						change();
-					}
-					});
-				};
-			}
-		}
-	};
-	var computer;
-	var computerMove = function() {
-		var random = randomPlay();
-			if (random === "rock") {
-				$('#computerMove').html("<img src='img/computerRock.png' id='rock'>");
-				computer = "rock";
-				return "rock";
-			} else if (random === "paper") {
-				$('#computerMove').html("<img src='img/computerPaper.png' id='paper'>");
-				computer = "paper";
-				return "paper";
-			} else {
-				$('#computerMove').html("<img src='img/computerScissors.png' id='scissors'>");
-				computer = "scissors";
-				return "scissors";
-			}
-		};
-	var player;
-	var winner;
-	var playerMove = function() {
-		var move = $('.move');
-		var rock = $('#rock');
-		var paper = $('#paper');
-		var scissors = $('#scissors');
-		if(rock.click(function(event) {
-			$('#playersMove').html("<img src='img/playerRock.png' id='rock'>");
-			computerMove();
-			player = "rock";
-			gamePlay();
-			change();
-		}));
-		if(paper.click(function(event) {
-			$('#playersMove').html("<img src ='img/playerPaper.png' id='paper'>");
-			computerMove();
-			player = "paper";
-			gamePlay();
-			change();
-		}));
-		if (scissors.click(function(event) {
-			$('#playersMove').html("<img src = 'img/playerScissors.png' id='scissors'>");
-			computerMove();
-			player = "scissors";
-			gamePlay();
-			change();
-		}));
-	};
+	function Rockpaperscissors(playerMove, computerMove) {
+		var player = new Player("player");
+		var computer = new Player("computer");
+		this.playerMove = playerMove;
+		this.computerMove = computerMove;
+		this.winner = "";
+	}
 
-
-	var gamePlay = function() {
-		rules(player, computer);
-	};
-
-	var text = $('#winner');
-	var change = function() {
-		if (winner === "player") {
-			text.html('<h2>YOU WIN!<h2>');
-		} else if (winner === "computer") {
-			text.html("<h2>Oh no!<br>You lost to a computer!</h2>");
-		} else {
-			text.html("<h2>It was a tie! Try again!<h2>");
-		}
-
-	};
-
-	function rules(playerMove,computerMove) {
+	Rockpaperscissors.prototype = {
+		rules: function(playerMove,computerMove) {
 		if(playerMove === computerMove) {
-			winner = "tie";
+			this.winner = "tie";
 		} else if(playerMove == "rock" && computerMove == "paper" ||
 				playerMove == "paper" && computerMove == "scissors" ||
 				playerMove == "scissors" && computerMove == "rock") {
-			winner = "computer";
+			this.winner = "computer";
 		} else if(playerMove == "rock" && computerMove == "scissors" ||
 				playerMove == "paper" && computerMove == "rock" ||
 				playerMove == "scissors" && computerMove == "paper")  {
-			winner = "player";
+			this.winner = "player";
 		}
 		return winner;
-	}
-	playerMove();
+		},
+		change: function() {
+			if (winner === "player") {
+				text.html('<h2>YOU WIN!<h2>');
+			} else if (winner === "computer") {
+				text.html("<h2>Oh no!<br>You lost to a computer!</h2>");
+			} else {
+				text.html("<h2>It was a tie! Try again!<h2>");
+			}
+		},
+		computerMove: function() {
+		var computer;
+		var player;
+		var winner;
+		var random = randomPlay();
+			if (random === "rock") {
+				$('#computerMove').html("<img src='img/computerRock.png' id='rock'>");
+				this.move = "rock";
+				return "rock";
+			} else if (random === "paper") {
+				$('#computerMove').html("<img src='img/computerPaper.png' id='paper'>");
+				this.move = "paper";
+				return "paper";
+			} else {
+				$('#computerMove').html("<img src='img/computerScissors.png' id='scissors'>");
+				this.move = "scissors";
+				return "scissors";
+			}
+		},
+
+		playerMove: function() {
+			var move = $('.move');
+			var rock = $('#rock');
+			var paper = $('#paper');
+			var scissors = $('#scissors');
+			move.click(function(event) {
+				for (var i = 0; i < move.length; i++) {
+					if(event.target === move[0]) {
+						$('#playersMove').html("<img src='img/playerRock.png' id='rock'>");
+							this.move = "rock";
+					} else if(event.target === move[1]) {
+						$('#playersMove').html("<img src ='img/playerPaper.png' id='paper'>");
+							this.move = "paper";
+					}
+					else if (event.target === move[2]) {
+						$('#playersMove').html("<img src = 'img/playerScissors.png' id='scissors'>");
+							this.move = "scissors";
+						}
+					}
+				});
+			}
+		};
+
+	var gamePlay = new Rockpaperscissors();
+	Rockpaperscissors();
 });
+
